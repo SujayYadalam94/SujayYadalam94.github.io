@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<base target="_blank" rel="noopener noreferrer">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- begin SEO -->
+    <title>Sujay Yadalam's webpage</title>
+    <meta property="og:locale" content="en-US">
+    <meta property="og:site_name" content="Sujay Yadalam">
+    <meta property="og:title" content="Sujay Yadalam">
+    <meta property="og:description" content="Sujay's webpage">
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js">
+    </script>
+
+    <style type="text/css">
+        body {
+            margin:40px auto;
+            max-width:880px;
+            line-height:1.3;
+            font-size:18px;
+            color:#333;
+            padding:0 40px;
+            font-family: "Montserrat";
+            font-weight: 400;
+            text-rendering: optimizeLegibility;
+        }
+        .change {
+            cursor: pointer;
+            border: 1px solid #555;
+            border-radius: 40%;
+            width: 20px;
+            text-align: center;
+            padding: 5px;
+            margin-left: 8px;
+        }
+        .dark {
+            background-color: #222;
+            color: white;
+            
+        }
+        h1 {
+            line-height: 1;
+            font-family: "Montserrat";
+            font-weight: 900;
+            position: relative;
+        }
+        h3 {
+            line-height: 1.2;
+            font-family: "Montserrat";
+            font-weight: 700;
+        }
+        .pub {
+            margin: 10px 0px;
+        }
+        a:hover, a:visited, a:link, a:active
+        {
+            color: #a60000;
+            text-decoration: none;
+        }
+        .dark a {
+            color: #BB86FC;
+        }
+        .container {
+          width: 50px;
+          height: 50px;
+          box-sizing: border-box;
+          padding: 0px;
+          background: none;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          bottom:400px;
+        }
+
+        .sun {
+          width: 40%;
+          height: 40%;
+          position: absolute;
+          pointer-events: none;
+          opacity: 0;
+          transform: scale(0.6) rotate(0deg);
+          transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+
+          /*  white transparent for Safari  */
+          background: radial-gradient(
+            circle,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0) 50%,
+            #f0f0f0 50%
+          );
+        }
+
+        .sun:before {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(
+            circle,
+            #f0f0f0 30%,
+            rgba(0, 0, 0, 0) 31%,
+            rgba(0, 0, 0, 0) 50%,
+            #f0f0f0 50%
+          );
+          transform: rotate(45deg);
+        }
+
+        .sun.visible {
+          pointer-events: auto;
+          opacity: 1;
+          transform: scale(1) rotate(180deg);
+          transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+        }
+
+        .moon {
+          width: 40%;
+          height: 40%;
+          pointer-events: none;
+          position: absolute;
+          left: 12.5%;
+          top: 22.75%;
+          background-color: rgba(0, 0, 0, 0);
+          border-radius: 50%;
+          box-shadow: 9px 3px 0px 0px #4a4a4a;
+          opacity: 0;
+          transform: scale(0.3) rotate(65deg);
+          transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+        }
+
+        .moon.visible {
+          pointer-events: auto;
+          opacity: 1;
+          transform: scale(1) rotate(0deg);
+          transition: transform 0.3s ease-in, opacity 0.2s ease-in 0.1s;
+        }
+
+        @media screen and (max-device-width: 480px) {
+          .desktop {
+            display: none;
+          }
+          .profile-pic {
+            display: none;
+          }
+        }
+    </style>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1T061XKD5H"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-1T061XKD5H');
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1>Sujay Yadalam</h1>
+        <a href="./CV.pdf">CV</a> |
+        <a href="https://www.linkedin.com/in/sujayys/">LinkedIn</a> |
+        <a href="https://scholar.google.com/citations?user=qAfcok0AAAAJ&hl=en">Google Scholar</a> |
+        <a href="https://github.com/SujayYadalam94">GitHub</a> <br>
+    </center>
+    <br>
+    <div class="profile-pic" style="float:right;padding-left:10px;padding-top:20px">
+        <center>
+            <img src="./images/profile_pic2.jpeg"  width="180" height="220">
+        </center>
+        <i class="fa fa-envelope" aria-hidden="true"></i> sujayyadalam AT cs.wisc.edu
+    </div>
+    <p>
+        I am a postdoc at UT Austin working on <a href="https://ldos.utexas.edu/">LDOS</a>. I completed my PhD in Computer Sciences from the <a href="https://www.wisc.edu/">University of Wisconsin-Madison</a>. I was part of the <a href="https://scail.cs.wisc.edu/">SCAIL research group</a> led by <a href="https://pages.cs.wisc.edu/~swift/">Prof. Michael Swift</a>.<br><br> 
+        Prior to pursuing my graduate studies, I spent a year as a Research Assistant at the Indian Institute of Science (IISc) advised by <a href="https://www.csa.iisc.ac.in/~arkapravab/">Prof. Arkaprava Basu</a> and <a href="https://www.csa.iisc.ac.in/~vg/">Prof. Vinod Ganapathy</a>.<br><br>
+        I obtained my bachelor's degree in Electronics and Communication (ECE) from <a href="https://pes.edu/">PES University</a>. <br><br>
+    </p>
+    <div class="desktop">
+    <button class="container" style="float:right">
+      <div class="moon visible"></div>
+      <div class="sun"></div>
+    </button>
+    </div>
+
+    <h3><u>News</u></h3>
+    <ul>
+        <li><b>Sep 2025</b>: Successfully defended my dissertation <i>'Architectures for heterogeneous memory and storage hierarchies in modern datacenters'</i>.
+        <li><b>Sep 2025</b>: Our work on tiering parameter tuning has been accepted at DIMES'25, and work on observable communication in Learning Directed Operating Systems has been accepted at PACMI'25.
+        <li><b>May 2025</b>: Our paper on guardrails for ML policies in the OS will be presented at HotOS'25.
+        <li><b>May 2024</b>: I will be teaching CS537 (Intro to OS) this summer!</li>
+        <li><b>May 2024</b>: Awarded Lawrence H. Landweber NCR Fellowship for 2024-2025.</li>
+        
+        <div class="mid" id="HiddenDiv" style="display: none;">
+            <li><b>Apr 2023</b>: Presented BypassD at <b>ASPLOS '24</b>, San Diego.</li>
+            <li><b>Aug 2023</b>: Passed my PhD preliminary examination! Yay!</li>
+            <li><b>Jun 2023</b>: Completed a successful internship at Microsoft!</li>
+            <li><b>Mar 2023</b>: <a href="https://akkamath.github.io/">Aditya Kamath</a> and I presented our idea on using LLMs in Operating Systems at WACI (Wild And Crazy Ideas) during ASPLOS 2023. <a href="https://arxiv.org/abs/2401.08908"><u>Paper</u></a>  <a href="https://www.youtube.com/watch?v=U4_0PmbEYSY&ab_channel=AdityaKKamath"><u>Code</u></a></li>
+            <li><b>May 2022</b>: I am interning at <a href="https://www.microsoft.com/en-us/research/group/azure-for-operators-afo-research/people/">Microsoft Research</a> with <a href="https://stefan.t8k2.com/">Stefan Saroiu</a> and <a href="https://alecw.azurewebsites.net/work/default.htm">Alec Wolman</a>.</li>
+            <li><b>May 2022</b>: Attended <b>NVMW'22</b> at San Diego. Presented ASAP.</li>
+            <li><b>Apr 2022</b>: Presented ASAP at <b>HPCA '22</b> (virtual).</li>
+            <li><b>Mar 2022</b>: Presented SwiftCore (ongoing work) at <b>YArch '22</b>. Attendend <b>ASPLOS '22</b> at Lausanne, Switzerland.</li>
+            <li><b>Dec 2021</b>: Passed my PhD qualifying exam. Yaay!</li>
+            <li><b>May 2021</b>: I will be interning at <a href="https://research.vmware.com/">VMware Research</a> in the summer, I will be working with <a href="https://pages.cs.wisc.edu/~jayneel/">Jayneel Gandhi</a>.</li>
+            <li><b>Jan 2021</b>: SGXL will be in the 1st issue of TACO in 2021.</li>
+        </div>
+
+        <script type="text/javascript">
+            function ShowHide(divId, linkId) {
+                var div = document.getElementById(divId);
+                var link = document.getElementById(linkId);
+
+                if (div.style.display === 'none') {
+                    div.style.display = 'block';
+                    link.innerHTML = 'Read less ...';
+                } else {
+                    div.style.display = 'none';
+                    link.innerHTML = 'Read more ...';
+                }
+            }
+        </script>
+
+        <a href="#" id="readMoreLink" target="_self" onclick="javascript:ShowHide('HiddenDiv', 'readMoreLink')">Read more ...</a>
+
+    </ul>
+
+    <hr>
+
+    <h3><u>Research interests</u></h3>
+    <ul>
+        <p>
+        My research interests include <b>computer architecture</b> and <b>systems</b> broadly.<br>
+        During my PhD, I have focused on designing system software and architectures for new and upcoming memory and storage technologies such as Non-Volatile Memory, low-latency SSDs and CXL technology.<br>
+        I have a keen interest in hardware-software co-designs. I believe that they present significant performance and efficiency opportunities that are unavailable without crossing the boundary between the two layers.
+        </p>
+    </ul>
+
+    <hr>
+
+    <h3><u>Selected Publications</u></h3>
+    <ul>
+        <li class="pib">
+            OQueue: Observable Communication in Learning Directed Operating Systems<br>
+            Aditya Tewari, <u>Sujay Yadalam</u>, Arthur Peters, Saurabh Agarwal, Aditya Akella, Michael Swift, and Christopher Rossbach<br>
+            <b>PACMI 2025</b><br>
+            [<a href="https://dl.acm.org/doi/10.1145/3766882.3767174">paper</a>] [<a href="">slides</a>]
+        <li class="pub">
+            Striking the Right Chord: Parameter Tuning in Memory Tiering<br>
+            Konstantinos Kanellis*, <u>Sujay Yadalam*</u>, Shivaram Venkataraman, and  Michael Swift<br>
+            <b>DIMES 2025</b><br>
+            [<a href="https://dl.acm.org/doi/10.1145/3764862.3768172">paper</a>] [<a href="">slides</a>]
+        </li>
+        <li class="pub">
+            How I learned to stop worrying and love learned OS policies<br>
+            Divyanshu Saxena, Jiayi Chen, <u>Sujay Yadalam</u>, Yeonju Ro, Rohit Dwivedula, Eric Campbell, Aditya Akella, Christopher Rossbach, and Michael Swift<br>
+            <b>HotOS 2025</b><br>
+            [<a href="https://rcs.uwaterloo.ca/hotos25/hotos25-156.pdf">paper</a>] [<a href="https://rcs.uwaterloo.ca/hotos25/slides/slides156.pdf">slides</a>]
+        </li>
+
+        <li class="pub">
+            BypassD: Enabling fast userspace access to shared SSDs<br>
+            <u>Sujay Yadalam</u>, Chloe Alverti, Vasileios Karakostas, Jayneel Gandhi, Michael Swift<br>
+            <b>ASPLOS 2024</b><br>
+            [<a href="https://dl.acm.org/doi/10.1145/3617232.3624854">paper</a>] [<a href="https://github.com/multifacet/BypassD">code</a>]
+        </li>
+
+        <li class="pub">
+            ASAP: A Speculative Approach to Persistence<br>
+            <u>Sujay Yadalam</u>, Nisarg Shah, Xiangyao Yu, Michael Swift<br>
+            <b>HPCA 2022</b><br>
+            [<a href="https://pages.cs.wisc.edu/~sujayyadalam/papers/ASAP_HPCA22.pdf">paper</a>] [<a href="https://github.com/multifacet/ASAP">code</a>] [<a href="https://www.youtube.com/watch?v=pAilLQ6OuKk">talk</a>] [<a  href="https://www.youtube.com/watch?v=NNQRzxvXTew">lightning talk</a>]
+        </li>
+
+        <li class="pub">
+            SGXL: Security and Performance for Enclaves Using Large Pages<br>
+            <u>Sujay Yadalam</u>, Vinod Ganapathy, Arkaprava Basu<br>
+            <b>TACO 2021</b><br>
+            [<a href="https://pages.cs.wisc.edu/~sujayyadalam/papers/SGXL_TACO2020.pdf">paper</a>] [<a href="https://github.com/csl-iisc/SGXL">code</a>] [<a href="https://youtu.be/laL7Ct03xmo?t=3603">talk</a>]
+        </li>
+    </ul>
+
+    <hr>
+
+    <h3><u>Other Publications</u></h3>
+    <ul>
+        <li class="pub">
+            ARMS: Adaptive and Robust Memory Tiering System<br>
+            <u>Sujay Yadalam*</u>,Konstantinos Kanellis*, Shivaram Venkataraman, Michael Swift<br>
+            [<a href="https://arxiv.org/abs/2508.04417">paper</a>]
+        </li>
+
+        <li class="pub">
+            From Good to Great: Improving Memory Tiering Performance Through Parameter Tuning<br>
+            Konstantinos Kanellis*, <u>Sujay Yadalam*</u>, Fanchao Chen, Shivaram Venkataraman, Michael Swift<br>
+            [<a href="https://arxiv.org/abs/2504.18714">paper</a>]
+        </li>
+
+        <li class="pub">
+            Herding LLaMaS: Using LLMs as an OS Module<br>
+            Aditya K Kamath*, <u>Sujay Yadalam*</u><br>
+            [<a href="https://arxiv.org/abs/2401.08908">paper</a>]
+        </li>
+            <span style="font-size: 15px">*Equal contribution</span><br>
+    </ul>
+
+    <hr>
+
+    <h3><u>Awards and grants</u></h3>
+    <ul>
+        <li><b> Lawrence H. Landweber NCR fellowship (2024-25)</b></li>
+        <li><b> Distinguished Artifact award (BypassD @ ASPLOS'24)</b></li>
+        <li><b> ASPLOS'24 student travel grant</b></li>
+        <li><b> ASPLOS'22 student travel grant</b></li>
+        <li><b> Teaching award (2019 for CS642)</b></li>
+    </ul>
+
+    <hr>
+
+    <h3><u>Service</u></h3>
+    <ul>
+        <li><b>OSDI 2024 Artifact Evaluation Committee</b></li>
+        <li><b>ATC 2024 Artifact Evaluation Committee</b></li>
+        <li><b>Eurosys 2024 Shadow PC</b></li>
+        <li><b>HPCA 2024 Artifact Evaluation Committee</b></li>
+    </ul>
+
+    <hr>
+    <h3><u>Teaching</u></h3>
+    <ul>
+        <li><b>Guest Lecture</b> &ndash; CS739 - Distributed Systems (UW-Madison, Fall 2024) <br> Lecture title: <b>Cluster Scheduling</b></li>
+        <li><b>Guest Lecture</b> &ndash; CS537 - Introduction to Operating Systems (UW-Madison, Fall 2024) <br> Lecture title: <b>Log structured Filesystems</b></li>
+        <li><b>Instructor</b> &ndash; CS537 - Introduction to Operating Systems (UW-Madison, Summer 2024)
+        <li><b>Guest Lecture</b> &ndash; CS537 - Introduction to Operating Systems (UW-Madison, Spring 2024) <br> Lecture title: <b>Concurrency bugs</b></li>
+        <li><b>Guest Lectures</b> &ndash; CS537 - Introduction to Operating Systems (UW-Madison, Spring 2023) <br> Lecture titles: <b>IO devices and disk schedulers</b>, <b>RAID</b></li>
+        <li><b>Guest Lecture</b> &ndash; CS839 - Special Topics on persistence (UW-Madison, Fall 2021) <br> Lecture title: <b>Architectures for NVM</b></li>
+        <li><b>Guest Lecture</b> &ndash; CS642 - Introduction to Computer Security (UW-Madison, Fall 2019) <br> Lecture title: <b>Hardware Security</b></li>
+        <li><b>Teaching Assistant</b> &ndash; CS642 - Introduction to Computer Security (UW-Madison, Fall 2019)</li>
+    </ul>
+
+    <script>
+        const sun = document.querySelector(".sun")
+        const moon = document.querySelector(".moon")
+        const button = document.querySelector(".container")
+
+        button.addEventListener("click", () => {
+          sun.classList.toggle("visible")
+          moon.classList.toggle("visible")
+            if( $( "body" ).hasClass( "dark" )) {
+                $( "body" ).removeClass( "dark" );
+                $( ".change" ).text( "OFF" );
+            } else {
+                $( "body" ).addClass( "dark" );
+                $( ".change" ).text( "ON" );
+            }
+        })
+    </script>
+
+</body>
+</html>
+
