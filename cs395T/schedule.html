@@ -78,6 +78,8 @@
       padding: 12px 12px;
     }
     tbody tr:last-child td { border-bottom: none; }
+    tbody tr.topic-end td { border-bottom: 2px solid var(--border); }
+    td.topic-cell-end { border-bottom: 2px solid var(--border) !important; }
     .muted { color: var(--muted); }
     .links a { display: inline-block; margin-right: 10px; }
     .tag {
@@ -137,8 +139,8 @@
         <table aria-label="Course schedule table">
           <thead>
             <tr>
-              <th style="width: 130px;">Date</th>
               <th style="width: 260px;">Topic</th>
+              <th style="width: 130px;">Date</th>
               <th>Paper</th>
             </tr>
           </thead>
@@ -162,17 +164,17 @@
     { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" } },
     { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" } },
 
-    { date: "Jan 22", topic: "Databases", paper: { title: "The Case for Learned Index Structures", url: "https://dl.acm.org/doi/pdf/10.1145/3183713.3196909" } },
-    { date: "Jan 27", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" } },
-    { date: "Jan 29", topic: "", paper: { title: "Polyjuice: High-Performance Transactions via Learned Concurrency Control", url: "https://www.usenix.org/system/files/osdi21-wang-jiachen.pdf" } },
+    { date: "Jan 22", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" } },
+    { date: "Jan 27", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" } },
+    { date: "Jan 29", topic: "", paper: { title: "ArtMem: Adaptive Migration in Reinforcement Learning-Enabled Tiered Memory", url: "https://dl.acm.org/doi/epdf/10.1145/3695053.3731001" } },
 
     { date: "Feb 3", topic: "LLM/agents for system", paper: { title: "VULCAN: Instance-Optimal Systems Heuristics Through LLM-Driven Search", url: "https://arxiv.org/pdf/2512.25065" } },
     { date: "Feb 5", topic: "", paper: { title: "KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta", url: "https://arxiv.org/pdf/2512.23236" } },
     { date: "Feb 10", topic: "", paper: { title: "Automatic Root Cause Analysis via LLMs for Cloud Incidents", url: "https://arxiv.org/pdf/2305.15778" } },
 
-    { date: "Feb 12", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" } },
-    { date: "Feb 17", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" } },
-    { date: "Feb 19", topic: "", paper: { title: "TBD", url: "#" } },
+    { date: "Feb 12", topic: "Databases", paper: { title: "The Case for Learned Index Structures", url: "https://dl.acm.org/doi/pdf/10.1145/3183713.3196909" } },
+    { date: "Feb 17", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" } },
+    { date: "Feb 19", topic: "", paper: { title: "openGauss: an autonomous database system", url: "https://dl.acm.org/doi/pdf/10.14778/3476311.3476380" } },
 
     { date: "Feb 24", topic: "Datacenters", paper: { title: "Learning scheduling algorithms for data processing clusters", url: "https://dl.acm.org/doi/pdf/10.1145/3341302.3342080" } },
     { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" } },
@@ -185,7 +187,7 @@
     { date: "Mar 17", topic: "Spring Break", paper: null },
     { date: "Mar 19", topic: "", paper: null },
 
-    { date: "Mar 24", topic: "ML Deployment", paper: { title: "Towards a Machine Learning-Assisted Kernel with LAKEKE", url: "https://dl.acm.org/doi/pdf/10.1145/3575693.3575697" } },
+    { date: "Mar 24", topic: "ML Deployment", paper: { title: "Towards a Machine Learning-Assisted Kernel with LAKE", url: "https://dl.acm.org/doi/pdf/10.1145/3575693.3575697" } },
     { date: "Mar 26", topic: "", paper: { title: "Murphy: Performance Diagnosis of Distributed Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604877" } },
     { date: "Mar 31", topic: "", paper: { title: "HALP: Heuristic Aided Learned Preference Eviction Policy for YouTube Content Delivery Network", url: "https://www.usenix.org/system/files/nsdi23-song-zhenyu.pdf" } },
 
@@ -251,8 +253,17 @@
 
   function render() {
     const groupByStartIndex = computeGroups(LECTURES);
+    
+    // Build a set of indices that are the last row of each topic group
+    const topicEndIndices = new Set();
+    for (const [startIdx, group] of groupByStartIndex) {
+      const lastIdx = startIdx + group.length - 1;
+      topicEndIndices.add(lastIdx);
+    }
 
     rowsEl.innerHTML = LECTURES.map((lec, i) => {
+      const isTopicEnd = topicEndIndices.has(i);
+      const trClass = isTopicEnd ? ' class="topic-end"' : '';
       const dateTd = `<td data-label="Date">${escapeHtml(lec.date)}</td>`;
       const paperTd = `<td data-label="Paper">${renderPaper(lec.paper)}</td>`;
 
@@ -260,12 +271,16 @@
       const group = groupByStartIndex.get(i);
       if (group) {
         const topicText = group.topic ? escapeHtml(group.topic) : "";
-        const topicTd = `<td data-label="Topic" rowspan="${group.length}"><span class="topic">${topicText}</span></td>`;
-        return `<tr>${dateTd}${topicTd}${paperTd}</tr>`;
+        // Check if THIS group ends at a topic-end index
+        const groupLastIdx = i + group.length - 1;
+        const isThisGroupEnd = topicEndIndices.has(groupLastIdx);
+        const topicCellClass = isThisGroupEnd ? ' class="topic-cell-end"' : '';
+        const topicTd = `<td data-label="Topic" rowspan="${group.length}"${topicCellClass}><span class="topic">${topicText}</span></td>`;
+        return `<tr${trClass}>${topicTd}${dateTd}${paperTd}</tr>`;
       }
 
       // Otherwise (continuation rows), omit the topic cell completely.
-      return `<tr>${dateTd}${paperTd}</tr>`;
+      return `<tr${trClass}>${dateTd}${paperTd}</tr>`;
     }).join("");
   }
 
