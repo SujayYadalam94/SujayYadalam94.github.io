@@ -106,6 +106,10 @@
         margin-bottom: 4px;
       }
     }
+    /* Center the merged Topic cells vertically */
+    td[rowspan] { 
+      vertical-align: middle; 
+    }
   </style>
 </head>
 <body>
@@ -133,11 +137,9 @@
         <table aria-label="Course schedule table">
           <thead>
             <tr>
-              <th style="width: 150px;">Date</th>
+              <th style="width: 130px;">Date</th>
               <th style="width: 260px;">Topic</th>
-              <th>Reading</th>
-              <th style="width: 170px;">Slides</th>
-              <th style="width: 240px;">Notes</th>
+              <th>Paper</th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
@@ -150,149 +152,126 @@
     </main>
   </div>
 
-  <script>
-    // ====== EDIT THIS DATA ======
-    const LECTURES = [
-      {
-        date: "Jan 13",
-        topic: "Course introduction",
-        tags: ["intro"],
-        readings: [
-          { title: "How to read a paper", url: "https://ccr.sigcomm.org/online/files/p83-keshavA.pdf" }
-        ],
-        slides: [
-          { title: "Slides", url: "#" }
-        ],
-        notes: "Sign up for presentations"
-      },
-      {
-        date: "Jan 15",
-        topic: "Why learned systems?",
-        tags: ["motivation"],
-        readings: [
-          { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOSHotOS19.pdf" }
-        ],
-        slides: [],
-        notes: ""
-      },
-      {
-        date: "Jan 20",
-        topic: "Learned indexes",
-        tags: ["data structures"],
-        readings: [
-          { title: "The Case for Learned Index Structures", url: "https://arxiv.org/abs/1712.01208" }
-        ],
-        slides: [{ title: "Slides", url: "#" }],
-        notes: "Student-led"
-      },
-      {
-        date: "Jan 22",
-        topic: "Caching",
-        tags: ["caching"],
-        readings: [
-          { title: "Darwin: Flexible Learning-based CDN Caching", url: "https://dl.acm.org/doi/10.1145/3341302.3342075" }
-        ],
-        slides: [],
-        notes: "Project ideas released"
-      },
-      {
-        date: "Mar 10",
-        topic: "Spring break",
-        tags: ["break"],
-        readings: [],
-        slides: [],
-        notes: ""
-      },
-      {
-        date: "Apr 23",
-        topic: "Final project presentations",
-        tags: ["project"],
-        readings: [],
-        slides: [],
-        notes: ""
-      }
-    ];
-    // ===========================
+<script>
+  // ====== EDIT THIS DATA ======
+  // Rule: put topic only on the FIRST lecture of a group.
+  // For continuation rows, set topic: "" (empty string).
+  const LECTURES = [
+    { date: "Jan 13", topic: "Course Intro + overview", paper: null },
 
-    const rowsEl = document.getElementById("rows");
-    const qEl = document.getElementById("q");
-    const tagEl = document.getElementById("tag");
+    { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" } },
+    { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" } },
 
-    function escapeHtml(s) {
-      return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-    }
+    { date: "Jan 22", topic: "Databases", paper: { title: "The Case for Learned Index Structures", url: "https://dl.acm.org/doi/pdf/10.1145/3183713.3196909" } },
+    { date: "Jan 27", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" } },
+    { date: "Jan 29", topic: "", paper: { title: "Polyjuice: High-Performance Transactions via Learned Concurrency Control", url: "https://www.usenix.org/system/files/osdi21-wang-jiachen.pdf" } },
 
-    function renderLinks(items) {
-      if (!items || items.length === 0) return "<span class='muted'>—</span>";
-      return items.map(x => `<div class="links"><a href="${escapeHtml(x.url)}" target="_blank" rel="noopener">${escapeHtml(x.title)}</a></div>`).join("");
-    }
+    { date: "Feb 3", topic: "LLM/agents for system", paper: { title: "VULCAN: Instance-Optimal Systems Heuristics Through LLM-Driven Search", url: "https://arxiv.org/pdf/2512.25065" } },
+    { date: "Feb 5", topic: "", paper: { title: "KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta", url: "https://arxiv.org/pdf/2512.23236" } },
+    { date: "Feb 10", topic: "", paper: { title: "Automatic Root Cause Analysis via LLMs for Cloud Incidents", url: "https://arxiv.org/pdf/2305.15778" } },
 
-    function lectureMatches(lec, query, tag) {
-      const hay = [
-        lec.date, lec.topic, lec.notes,
-        ...(lec.tags || []),
-        ...(lec.readings || []).map(r => r.title),
-        ...(lec.slides || []).map(s => s.title)
-      ].join(" ").toLowerCase();
-      const okQ = !query || hay.includes(query.toLowerCase());
-      const okTag = !tag || (lec.tags || []).includes(tag);
-      return okQ && okTag;
-    }
+    { date: "Feb 12", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" } },
+    { date: "Feb 17", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" } },
+    { date: "Feb 19", topic: "", paper: { title: "TBD", url: "#" } },
 
-    function render() {
-      const query = qEl.value.trim();
-      const tag = tagEl.value;
+    { date: "Feb 24", topic: "Datacenters", paper: { title: "Learning scheduling algorithms for data processing clusters", url: "https://dl.acm.org/doi/pdf/10.1145/3341302.3342080" } },
+    { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" } },
+    { date: "Mar 3", topic: "", paper: { title: "OPPerTune: Post-Deployment Configuration Tuning of Services Made Easy", url: "https://www.usenix.org/system/files/nsdi24-somashekar.pdf" } },
 
-      const visible = LECTURES.filter(lec => lectureMatches(lec, query, tag));
+    { date: "Mar 5", topic: "Resource management 2", paper: { title: "Darwin: Flexible Learning-based CDN Caching", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604863" } },
+    { date: "Mar 10", topic: "", paper: { title: "Learning Memory Access Patterns", url: "https://proceedings.mlr.press/v80/hashemi18a/hashemi18a.pdf" } },
+    { date: "Mar 12", topic: "", paper: { title: "Classic Meets Modern: a Pragmatic Learning-Based Congestion Control for the Internet", url: "https://dl.acm.org/doi/pdf/10.1145/3387514.3405892" } },
 
-      rowsEl.innerHTML = visible.map(lec => {
-        const tagHtml = (lec.tags && lec.tags.length)
-          ? `<span class="tag">${escapeHtml(lec.tags[0])}</span>`
-          : "";
-        return `
-          <tr>
-            <td data-label="Date">${escapeHtml(lec.date)}</td>
-            <td data-label="Topic"><span class="topic">${escapeHtml(lec.topic)}</span>${tagHtml}</td>
-            <td data-label="Reading">${renderLinks(lec.readings)}</td>
-            <td data-label="Slides">${renderLinks(lec.slides)}</td>
-            <td data-label="Notes">${lec.notes ? escapeHtml(lec.notes) : "<span class='muted'>—</span>"}</td>
-          </tr>
-        `;
-      }).join("");
+    { date: "Mar 17", topic: "Spring Break", paper: null },
+    { date: "Mar 19", topic: "", paper: null },
 
-      if (visible.length === 0) {
-        rowsEl.innerHTML = `
-          <tr>
-            <td colspan="5" class="muted" style="padding: 14px 12px;">
-              No results. Try clearing search / tag filters.
-            </td>
-          </tr>
-        `;
+    { date: "Mar 24", topic: "ML Deployment", paper: { title: "Towards a Machine Learning-Assisted Kernel with LAKEKE", url: "https://dl.acm.org/doi/pdf/10.1145/3575693.3575697" } },
+    { date: "Mar 26", topic: "", paper: { title: "Murphy: Performance Diagnosis of Distributed Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604877" } },
+    { date: "Mar 31", topic: "", paper: { title: "HALP: Heuristic Aided Learned Preference Eviction Policy for YouTube Content Delivery Network", url: "https://www.usenix.org/system/files/nsdi23-song-zhenyu.pdf" } },
+
+    { date: "Apr 2", topic: "Robustness", paper: { title: "Galileo", url: "#" } },
+    { date: "Apr 7", topic: "", paper: { title: "C3: Learning Congestion Controllers with Formal Certificates", url: "https://arxiv.org/pdf/2412.10915" } },
+
+    { date: "Apr 9", topic: "Trace synthesis", paper: { title: "Zoom2Net: Constrained Network Telemetry Imputation", url: "https://dl.acm.org/doi/pdf/10.1145/3651890.3672225" } },
+    { date: "Apr 14", topic: "", paper: { title: "Large Language Models as Realistic Microservice Trace Generators", url: "https://aclanthology.org/2025.emnlp-main.4.pdf" } },
+
+    { date: "Apr 16", topic: "Simulation", paper: { title: "CausalSim: A Causal Framework for Unbiased Trace-Driven Simulation", url: "https://www.usenix.org/system/files/nsdi23-alomar.pdf" } },
+
+    { date: "Apr 21", topic: "Project presentations", paper: null },
+    { date: "Apr 23", topic: "", paper: null },
+  ];
+  // ===========================
+
+  const rowsEl = document.getElementById("rows");
+
+  function escapeHtml(s) {
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function renderPaper(p) {
+    if (!p) return "<span class='muted'>—</span>";
+    const title = escapeHtml(p.title);
+    const url = escapeHtml(p.url || "#");
+    return `<a href="${url}" target="_blank" rel="noopener">${title}</a>`;
+  }
+
+  // Compute topic groups so we can set rowspan on the first row of each group.
+  function computeGroups(items) {
+    const groups = [];
+    let current = null;
+
+    for (let i = 0; i < items.length; i++) {
+      const lec = items[i];
+      const startsNew = (lec.topic && lec.topic.trim().length > 0);
+
+      if (startsNew) {
+        current = { topic: lec.topic.trim(), startIndex: i, length: 1 };
+        groups.push(current);
+      } else {
+        // Continuation row: attach to previous group if it exists, else treat as its own empty topic group.
+        if (!current) {
+          current = { topic: "", startIndex: i, length: 1 };
+          groups.push(current);
+        } else {
+          current.length++;
+        }
       }
     }
 
-    function initTags() {
-      const tags = new Set();
-      for (const lec of LECTURES) (lec.tags || []).forEach(t => tags.add(t));
-      [...tags].sort().forEach(t => {
-        const opt = document.createElement("option");
-        opt.value = t;
-        opt.textContent = t;
-        tagEl.appendChild(opt);
-      });
-    }
+    // Map start index -> rowspan length + topic
+    const byStart = new Map();
+    for (const g of groups) byStart.set(g.startIndex, g);
+    return byStart;
+  }
 
-    qEl.addEventListener("input", render);
-    tagEl.addEventListener("change", render);
+  function render() {
+    const groupByStartIndex = computeGroups(LECTURES);
 
-    initTags();
-    render();
-  </script>
+    rowsEl.innerHTML = LECTURES.map((lec, i) => {
+      const dateTd = `<td data-label="Date">${escapeHtml(lec.date)}</td>`;
+      const paperTd = `<td data-label="Paper">${renderPaper(lec.paper)}</td>`;
+
+      // If this row starts a topic group, render a Topic cell with rowspan.
+      const group = groupByStartIndex.get(i);
+      if (group) {
+        const topicText = group.topic ? escapeHtml(group.topic) : "";
+        const topicTd = `<td data-label="Topic" rowspan="${group.length}"><span class="topic">${topicText}</span></td>`;
+        return `<tr>${dateTd}${topicTd}${paperTd}</tr>`;
+      }
+
+      // Otherwise (continuation rows), omit the topic cell completely.
+      return `<tr>${dateTd}${paperTd}</tr>`;
+    }).join("");
+  }
+
+  render();
+</script>
+
 </body>
 </html>
 
