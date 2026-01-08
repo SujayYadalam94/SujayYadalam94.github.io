@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CS 395T: Principles of Learned Systems</title>
+  <meta name="description" content="Course website for CS 395T: Principles of Learned Systems." />
+  <style>
+    :root {
+      --text: #111;
+      --muted: #555;
+      --bg: #fff;
+      --border: #e5e7eb;
+      --link: #0b57d0;
+      --maxw: 960px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 28px 18px 60px; }
+    header { margin-bottom: 18px; }
+    .course-title { font-size: 28px; font-weight: 700; margin: 0 0 4px; }
+    .term { color: var(--muted); margin: 0 0 14px; }
+    nav {
+      display: flex; gap: 14px; flex-wrap: wrap;
+      padding: 10px 0 0;
+      border-top: 1px solid var(--border);
+    }
+    nav a { color: var(--link); text-decoration: none; }
+    nav a:hover { text-decoration: underline; }
+    h2 { margin: 22px 0 10px; font-size: 18px; }
+    ul { margin: 8px 0 0 18px; }
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .muted { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1 class="course-title">CS 395T: Principles of Learned Systems</h1>
+      <p class="term">Spring 2026</p>
+      <nav>
+        <a href="./index.html">Home</a>
+        <a href="./schedule.html">Schedule</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="card">
+        <h2>Overview</h2>
+        <p class="muted">
+          This is a graduate-level reading seminar on machine learning for computer systems.
+          Each class centers on a paper and discussion, plus a semester-long project.
+        </p>
+      </section>
+
+      <section class="card">
+        <h2>Logistics</h2>
+        <ul>
+          <li><strong>Instructor:</strong> Your Name</li>
+          <li><strong>Office hours:</strong> TBD</li>
+          <li><strong>Contact:</strong> your-email@utexas.edu</li>
+          <li><strong>Discussion:</strong> Ed / Canvas / Piazza (pick one)</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>Quick links</h2>
+        <ul>
+          <li><a href="./schedule.html">Course schedule</a></li>
+          <li><a href="#" onclick="alert('Replace with your signup sheet link!'); return false;">Presentation signup</a></li>
+          <li><a href="#" onclick="alert('Replace with your project page link!'); return false;">Project info</a></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
+
