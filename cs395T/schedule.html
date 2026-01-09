@@ -39,22 +39,6 @@
     a { color: var(--link); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 220px;
-      gap: 10px;
-      margin: 10px 0 14px;
-    }
-    .controls input, .controls select {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 14px;
-      outline: none;
-    }
-    .controls input:focus, .controls select:focus { border-color: #c7d2fe; }
-
     .table-wrap {
       border: 1px solid var(--border);
       border-radius: 14px;
@@ -80,23 +64,26 @@
     tbody tr:last-child td { border-bottom: none; }
     tbody tr.topic-end td { border-bottom: 2px solid var(--border); }
     td.topic-cell-end { border-bottom: 2px solid var(--border) !important; }
+    /* Styling for same-date paper rows */
+    tbody tr.same-date-first td:not([rowspan]) {
+      padding-bottom: 2px !important;
+      border-bottom: none !important;
+    }
+    tbody tr.same-date td {
+      padding-top: 2px !important;
+      padding-bottom: 2px !important;
+      border-bottom: none !important;
+    }
+    /* Restore border for the last row in same-date group */
+    tbody tr.same-date-last td {
+      border-bottom: 1px solid var(--border2) !important;
+      padding-bottom: 12px !important;
+    }
     .muted { color: var(--muted); }
     .links a { display: inline-block; margin-right: 10px; }
-    .tag {
-      display: inline-block;
-      background: var(--chip);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 2px 10px;
-      font-size: 12px;
-      color: #333;
-      margin-left: 8px;
-      white-space: nowrap;
-    }
     .topic { font-weight: 600; }
     .small { font-size: 12px; }
     @media (max-width: 860px) {
-      .controls { grid-template-columns: 1fr; }
       thead { display: none; }
       table, tbody, tr, td { display: block; width: 100%; }
       tbody tr { border-bottom: 1px solid var(--border); }
@@ -128,13 +115,6 @@
     <main>
       <h1>Course Schedule</h1>
 
-      <div class="controls">
-        <input id="q" type="search" placeholder="Search (topic, paper title, notes)..." />
-        <select id="tag">
-          <option value="">All tags</option>
-        </select>
-      </div>
-
       <div class="table-wrap">
         <table aria-label="Course schedule table">
           <thead>
@@ -147,10 +127,6 @@
           <tbody id="rows"></tbody>
         </table>
       </div>
-
-      <p class="muted small" style="margin-top: 10px;">
-        Edit the <code>LECTURES</code> array inside this file to update the schedule.
-      </p>
     </main>
   </div>
 
@@ -162,6 +138,7 @@
     { date: "Jan 13", topic: "Course Intro + overview", paper: null },
 
     { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" } },
+    { date: "Jan 15", topic: "", paper: { title: "Park: An Open Platform for Learning-Augmented Computer Systems", url: "#" } },
     { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" } },
 
     { date: "Jan 22", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" } },
@@ -251,8 +228,39 @@
     return byStart;
   }
 
+  // Compute date groups for merging same dates
+  function computeDateGroups(items) {
+    const byIndex = new Map();
+    let i = 0;
+    
+    while (i < items.length) {
+      const currentDate = items[i].date;
+      let length = 1;
+      
+      // Count consecutive rows with the same date
+      while (i + length < items.length && items[i + length].date === currentDate) {
+        length++;
+      }
+      
+      // Store the group info for ALL rows in the group
+      if (length > 1) {
+        const groupInfo = { startIndex: i, length: length };
+        for (let j = i; j < i + length; j++) {
+          byIndex.set(j, groupInfo);
+        }
+      }
+      
+      i += length;
+    }
+    
+    return byIndex;
+  }
+
   function render() {
     const groupByStartIndex = computeGroups(LECTURES);
+    const dateGroupByStartIndex = computeDateGroups(LECTURES);
+    
+    console.log('Date groups:', dateGroupByStartIndex); // Debug
     
     // Build a set of indices that are the last row of each topic group
     const topicEndIndices = new Set();
@@ -263,8 +271,33 @@
 
     rowsEl.innerHTML = LECTURES.map((lec, i) => {
       const isTopicEnd = topicEndIndices.has(i);
-      const trClass = isTopicEnd ? ' class="topic-end"' : '';
-      const dateTd = `<td data-label="Date">${escapeHtml(lec.date)}</td>`;
+      
+      // Check if this is part of a date group (same date appears multiple times consecutively)
+      const dateGroup = dateGroupByStartIndex.get(i);
+      const isSameDateRow = dateGroup && dateGroup.length > 1;
+      const isFirstOfDateGroup = dateGroup && dateGroup.startIndex === i;
+      const isLastOfDateGroup = dateGroup && dateGroup.startIndex + dateGroup.length - 1 === i;
+      
+      console.log(`Row ${i}: date=${lec.date}, isSameDateRow=${isSameDateRow}, isFirst=${isFirstOfDateGroup}, isLast=${isLastOfDateGroup}, dateGroup=`, dateGroup); // Debug
+      
+      // Build class list
+      const classes = [];
+      if (isTopicEnd) classes.push('topic-end');
+      if (isSameDateRow && isFirstOfDateGroup) classes.push('same-date-first');
+      if (isSameDateRow && !isFirstOfDateGroup && !isLastOfDateGroup) classes.push('same-date');
+      if (isSameDateRow && isLastOfDateGroup && !isFirstOfDateGroup) classes.push('same-date same-date-last');
+      const finalTrClass = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
+      
+      // Render date cell with rowspan if this starts a date group
+      let dateTd;
+      if (isFirstOfDateGroup && dateGroup.length > 1) {
+        dateTd = `<td data-label="Date" rowspan="${dateGroup.length}">${escapeHtml(lec.date)}</td>`;
+      } else if (isSameDateRow && !isFirstOfDateGroup) {
+        dateTd = ''; // Omit date cell for continuation rows
+      } else {
+        dateTd = `<td data-label="Date">${escapeHtml(lec.date)}</td>`;
+      }
+      
       const paperTd = `<td data-label="Paper">${renderPaper(lec.paper)}</td>`;
 
       // If this row starts a topic group, render a Topic cell with rowspan.
@@ -276,11 +309,11 @@
         const isThisGroupEnd = topicEndIndices.has(groupLastIdx);
         const topicCellClass = isThisGroupEnd ? ' class="topic-cell-end"' : '';
         const topicTd = `<td data-label="Topic" rowspan="${group.length}"${topicCellClass}><span class="topic">${topicText}</span></td>`;
-        return `<tr${trClass}>${topicTd}${dateTd}${paperTd}</tr>`;
+        return `<tr${finalTrClass}>${topicTd}${dateTd}${paperTd}</tr>`;
       }
 
       // Otherwise (continuation rows), omit the topic cell completely.
-      return `<tr${trClass}>${dateTd}${paperTd}</tr>`;
+      return `<tr${finalTrClass}>${dateTd}${paperTd}</tr>`;
     }).join("");
   }
 
