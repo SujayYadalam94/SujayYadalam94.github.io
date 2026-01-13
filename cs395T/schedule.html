@@ -119,9 +119,11 @@
         <table aria-label="Course schedule table">
           <thead>
             <tr>
-              <th style="width: 260px;">Topic</th>
+              <th style="width: 200px;">Topic</th>
               <th style="width: 130px;">Date</th>
               <th>Paper</th>
+              <th style="width: 100px;">Slides</th>
+              <th style="width: 100px;">Notes</th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
@@ -135,49 +137,49 @@
   // Rule: put topic only on the FIRST lecture of a group.
   // For continuation rows, set topic: "" (empty string).
   const LECTURES = [
-    { date: "Jan 13", topic: "Course Intro + overview", paper: null },
+    { date: "Jan 13", topic: "Course Intro + overview", paper: { title: "How to Read a Paper", url: "http://ccr.sigcomm.org/online/files/p83-keshavA.pdf" }, slides: null, notes: null },
 
-    { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" } },
-    { date: "Jan 15", topic: "", paper: { title: "Park: An Open Platform for Learning-Augmented Computer Systems", url: "#" } },
-    { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" } },
+    { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" }, slides: null, notes: null },
+    { date: "Jan 15", topic: "", paper: { title: "Park: An Open Platform for Learning-Augmented Computer Systems", url: "#" }, slides: null, notes: null },
+    { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" }, slides: null, notes: null },
 
-    { date: "Jan 22", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" } },
-    { date: "Jan 27", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" } },
-    { date: "Jan 29", topic: "", paper: { title: "ArtMem: Adaptive Migration in Reinforcement Learning-Enabled Tiered Memory", url: "https://dl.acm.org/doi/epdf/10.1145/3695053.3731001" } },
+    { date: "Jan 22", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" }, slides: null, notes: null },
+    { date: "Jan 27", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" }, slides: null, notes: null },
+    { date: "Jan 29", topic: "", paper: { title: "ArtMem: Adaptive Migration in Reinforcement Learning-Enabled Tiered Memory", url: "https://dl.acm.org/doi/epdf/10.1145/3695053.3731001" }, slides: null, notes: null },
 
-    { date: "Feb 3", topic: "LLM/agents for system", paper: { title: "VULCAN: Instance-Optimal Systems Heuristics Through LLM-Driven Search", url: "https://arxiv.org/pdf/2512.25065" } },
-    { date: "Feb 5", topic: "", paper: { title: "KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta", url: "https://arxiv.org/pdf/2512.23236" } },
-    { date: "Feb 10", topic: "", paper: { title: "Automatic Root Cause Analysis via LLMs for Cloud Incidents", url: "https://arxiv.org/pdf/2305.15778" } },
+    { date: "Feb 3", topic: "LLM/agents for system", paper: { title: "VULCAN: Instance-Optimal Systems Heuristics Through LLM-Driven Search", url: "https://arxiv.org/pdf/2512.25065" }, slides: null, notes: null },
+    { date: "Feb 5", topic: "", paper: { title: "KernelEvolve: Scaling Agentic Kernel Coding for Heterogeneous AI Accelerators at Meta", url: "https://arxiv.org/pdf/2512.23236" }, slides: null, notes: null },
+    { date: "Feb 10", topic: "", paper: { title: "Automatic Root Cause Analysis via LLMs for Cloud Incidents", url: "https://arxiv.org/pdf/2305.15778" }, slides: null, notes: null },
 
-    { date: "Feb 12", topic: "Databases", paper: { title: "The Case for Learned Index Structures", url: "https://dl.acm.org/doi/pdf/10.1145/3183713.3196909" } },
-    { date: "Feb 17", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" } },
-    { date: "Feb 19", topic: "", paper: { title: "openGauss: an autonomous database system", url: "https://dl.acm.org/doi/pdf/10.14778/3476311.3476380" } },
+    { date: "Feb 12", topic: "Databases", paper: { title: "The Case for Learned Index Structures", url: "https://dl.acm.org/doi/pdf/10.1145/3183713.3196909" }, slides: null, notes: null },
+    { date: "Feb 17", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" }, slides: null, notes: null },
+    { date: "Feb 19", topic: "", paper: { title: "openGauss: an autonomous database system", url: "https://dl.acm.org/doi/pdf/10.14778/3476311.3476380" }, slides: null, notes: null },
 
-    { date: "Feb 24", topic: "Datacenters", paper: { title: "Learning scheduling algorithms for data processing clusters", url: "https://dl.acm.org/doi/pdf/10.1145/3341302.3342080" } },
-    { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" } },
-    { date: "Mar 3", topic: "", paper: { title: "OPPerTune: Post-Deployment Configuration Tuning of Services Made Easy", url: "https://www.usenix.org/system/files/nsdi24-somashekar.pdf" } },
+    { date: "Feb 24", topic: "Datacenters", paper: { title: "Learning scheduling algorithms for data processing clusters", url: "https://dl.acm.org/doi/pdf/10.1145/3341302.3342080" }, slides: null, notes: null },
+    { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" }, slides: null, notes: null },
+    { date: "Mar 3", topic: "", paper: { title: "OPPerTune: Post-Deployment Configuration Tuning of Services Made Easy", url: "https://www.usenix.org/system/files/nsdi24-somashekar.pdf" }, slides: null, notes: null },
 
-    { date: "Mar 5", topic: "Resource management 2", paper: { title: "Darwin: Flexible Learning-based CDN Caching", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604863" } },
-    { date: "Mar 10", topic: "", paper: { title: "Learning Memory Access Patterns", url: "https://proceedings.mlr.press/v80/hashemi18a/hashemi18a.pdf" } },
-    { date: "Mar 12", topic: "", paper: { title: "Classic Meets Modern: a Pragmatic Learning-Based Congestion Control for the Internet", url: "https://dl.acm.org/doi/pdf/10.1145/3387514.3405892" } },
+    { date: "Mar 5", topic: "Resource management 2", paper: { title: "Darwin: Flexible Learning-based CDN Caching", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604863" }, slides: null, notes: null },
+    { date: "Mar 10", topic: "", paper: { title: "Learning Memory Access Patterns", url: "https://proceedings.mlr.press/v80/hashemi18a/hashemi18a.pdf" }, slides: null, notes: null },
+    { date: "Mar 12", topic: "", paper: { title: "Classic Meets Modern: a Pragmatic Learning-Based Congestion Control for the Internet", url: "https://dl.acm.org/doi/pdf/10.1145/3387514.3405892" }, slides: null, notes: null },
 
-    { date: "Mar 17", topic: "Spring Break", paper: null },
-    { date: "Mar 19", topic: "", paper: null },
+    { date: "Mar 17", topic: "Spring Break", paper: null, slides: null, notes: null },
+    { date: "Mar 19", topic: "", paper: null, slides: null, notes: null },
 
-    { date: "Mar 24", topic: "ML Deployment", paper: { title: "Towards a Machine Learning-Assisted Kernel with LAKE", url: "https://dl.acm.org/doi/pdf/10.1145/3575693.3575697" } },
-    { date: "Mar 26", topic: "", paper: { title: "Murphy: Performance Diagnosis of Distributed Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604877" } },
-    { date: "Mar 31", topic: "", paper: { title: "HALP: Heuristic Aided Learned Preference Eviction Policy for YouTube Content Delivery Network", url: "https://www.usenix.org/system/files/nsdi23-song-zhenyu.pdf" } },
+    { date: "Mar 24", topic: "ML Deployment", paper: { title: "Towards a Machine Learning-Assisted Kernel with LAKE", url: "https://dl.acm.org/doi/pdf/10.1145/3575693.3575697" }, slides: null, notes: null },
+    { date: "Mar 26", topic: "", paper: { title: "Murphy: Performance Diagnosis of Distributed Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604877" }, slides: null, notes: null },
+    { date: "Mar 31", topic: "", paper: { title: "HALP: Heuristic Aided Learned Preference Eviction Policy for YouTube Content Delivery Network", url: "https://www.usenix.org/system/files/nsdi23-song-zhenyu.pdf" }, slides: null, notes: null },
 
-    { date: "Apr 2", topic: "Robustness", paper: { title: "Galileo", url: "#" } },
-    { date: "Apr 7", topic: "", paper: { title: "C3: Learning Congestion Controllers with Formal Certificates", url: "https://arxiv.org/pdf/2412.10915" } },
+    { date: "Apr 2", topic: "Robustness", paper: { title: "Galileo", url: "#" }, slides: null, notes: null },
+    { date: "Apr 7", topic: "", paper: { title: "C3: Learning Congestion Controllers with Formal Certificates", url: "https://arxiv.org/pdf/2412.10915" }, slides: null, notes: null },
 
-    { date: "Apr 9", topic: "Trace synthesis", paper: { title: "Zoom2Net: Constrained Network Telemetry Imputation", url: "https://dl.acm.org/doi/pdf/10.1145/3651890.3672225" } },
-    { date: "Apr 14", topic: "", paper: { title: "Large Language Models as Realistic Microservice Trace Generators", url: "https://aclanthology.org/2025.emnlp-main.4.pdf" } },
+    { date: "Apr 9", topic: "Trace synthesis", paper: { title: "Zoom2Net: Constrained Network Telemetry Imputation", url: "https://dl.acm.org/doi/pdf/10.1145/3651890.3672225" }, slides: null, notes: null },
+    { date: "Apr 14", topic: "", paper: { title: "Large Language Models as Realistic Microservice Trace Generators", url: "https://aclanthology.org/2025.emnlp-main.4.pdf" }, slides: null, notes: null },
 
-    { date: "Apr 16", topic: "Simulation", paper: { title: "CausalSim: A Causal Framework for Unbiased Trace-Driven Simulation", url: "https://www.usenix.org/system/files/nsdi23-alomar.pdf" } },
+    { date: "Apr 16", topic: "Simulation", paper: { title: "CausalSim: A Causal Framework for Unbiased Trace-Driven Simulation", url: "https://www.usenix.org/system/files/nsdi23-alomar.pdf" }, slides: null, notes: null },
 
-    { date: "Apr 21", topic: "Project presentations", paper: null },
-    { date: "Apr 23", topic: "", paper: null },
+    { date: "Apr 21", topic: "Project presentations", paper: null, slides: null, notes: null },
+    { date: "Apr 23", topic: "", paper: null, slides: null, notes: null },
   ];
   // ===========================
 
@@ -197,6 +199,12 @@
     const title = escapeHtml(p.title);
     const url = escapeHtml(p.url || "#");
     return `<a href="${url}" target="_blank" rel="noopener">${title}</a>`;
+  }
+
+  function renderLink(linkUrl) {
+    if (!linkUrl) return "<span class='muted'>—</span>";
+    const url = escapeHtml(linkUrl);
+    return `<a href="${url}" target="_blank" rel="noopener">Link</a>`;
   }
 
   // Compute topic groups so we can set rowspan on the first row of each group.
@@ -299,6 +307,8 @@
       }
       
       const paperTd = `<td data-label="Paper">${renderPaper(lec.paper)}</td>`;
+      const slidesTd = `<td data-label="Slides">${renderLink(lec.slides)}</td>`;
+      const notesTd = `<td data-label="Notes">${renderLink(lec.notes)}</td>`;
 
       // If this row starts a topic group, render a Topic cell with rowspan.
       const group = groupByStartIndex.get(i);
@@ -309,11 +319,11 @@
         const isThisGroupEnd = topicEndIndices.has(groupLastIdx);
         const topicCellClass = isThisGroupEnd ? ' class="topic-cell-end"' : '';
         const topicTd = `<td data-label="Topic" rowspan="${group.length}"${topicCellClass}><span class="topic">${topicText}</span></td>`;
-        return `<tr${finalTrClass}>${topicTd}${dateTd}${paperTd}</tr>`;
+        return `<tr${finalTrClass}>${topicTd}${dateTd}${paperTd}${slidesTd}${notesTd}</tr>`;
       }
 
       // Otherwise (continuation rows), omit the topic cell completely.
-      return `<tr${finalTrClass}>${dateTd}${paperTd}</tr>`;
+      return `<tr${finalTrClass}>${dateTd}${paperTd}${slidesTd}${notesTd}</tr>`;
     }).join("");
   }
 
