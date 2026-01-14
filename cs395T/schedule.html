@@ -137,7 +137,7 @@
   // Rule: put topic only on the FIRST lecture of a group.
   // For continuation rows, set topic: "" (empty string).
   const LECTURES = [
-    { date: "Jan 13", topic: "Course Intro + overview", paper: { title: "How to Read a Paper", url: "http://ccr.sigcomm.org/online/files/p83-keshavA.pdf" }, slides: null, notes: null },
+    { date: "Jan 13", topic: "Course Intro + overview", paper: { title: "How to Read a Paper", url: "http://ccr.sigcomm.org/online/files/p83-keshavA.pdf" }, slides: "slides/Lec1.pdf", notes: null },
 
     { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" }, slides: null, notes: null },
     { date: "Jan 15", topic: "", paper: { title: "Park: An Open Platform for Learning-Augmented Computer Systems", url: "#" }, slides: null, notes: null },
@@ -204,7 +204,10 @@
   function renderLink(linkUrl) {
     if (!linkUrl) return "<span class='muted'>—</span>";
     const url = escapeHtml(linkUrl);
-    return `<a href="${url}" target="_blank" rel="noopener">Link</a>`;
+    // Extract filename from path and remove extension
+    const filename = linkUrl.split('/').pop();
+    const nameWithoutExt = filename.substring(0, filename.lastIndexOf('.')) || filename;
+    return `<a href="${url}" target="_blank" rel="noopener">${escapeHtml(nameWithoutExt)}</a>`;
   }
 
   // Compute topic groups so we can set rowspan on the first row of each group.
