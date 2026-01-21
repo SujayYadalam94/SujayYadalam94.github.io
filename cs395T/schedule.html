@@ -120,9 +120,9 @@
           <thead>
             <tr>
               <th style="width: 200px;">Topic</th>
-              <th style="width: 130px;">Date</th>
+              <th style="width: 80px;">Date</th>
               <th>Paper</th>
-              <th style="width: 100px;">Slides</th>
+              <th style="width: 150px;">Slides</th>
               <th style="width: 100px;">Notes</th>
             </tr>
           </thead>
@@ -141,7 +141,7 @@
 
     { date: "Jan 15", topic: "Need for ML for systems", paper: { title: "Learned Operating Systems", url: "https://cseweb.ucsd.edu/~yiying/LearnedOS-OSR19.pdf" }, slides: "slides/Lec2.pdf", notes: null },
     { date: "Jan 15", topic: "", paper: { title: "Park: An Open Platform for Learning-Augmented Computer Systems", url: "https://proceedings.neurips.cc/paper/2019/file/f69e505b08403ad2298b9f262659929a-Paper.pdf" }, slides: null, notes: null },
-    { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" }, slides: null, notes: null },
+    { date: "Jan 20", topic: "", paper: { title: "Toward ML-centric Cloud Platforms", url: "https://www.microsoft.com/en-us/research/wp-content/uploads/2020/01/CACM20-produced.pdf" }, slides: [{ url: "slides/Lec3.pdf", label: "Intro" }, { url: "slides/Lec3_student.pdf", label: "Paper" }], notes: null },
 
     { date: "Jan 22", topic: "Resource management", paper: { title: "Learning-based Memory Allocation for C++ Server Workloads", url: "https://dl.acm.org/doi/pdf/10.1145/3373376.3378525" }, slides: null, notes: null },
     { date: "Jan 27", topic: "", paper: { title: "Heimdall: Optimizing Storage I/O Admission with Extensive Machine Learning Pipeline", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717496" }, slides: null, notes: null },
@@ -203,6 +203,17 @@
 
   function renderLink(linkUrl) {
     if (!linkUrl) return "<span class='muted'>—</span>";
+    
+    // Handle array of links with custom labels
+    if (Array.isArray(linkUrl)) {
+      return linkUrl.map(link => {
+        const url = escapeHtml(link.url);
+        const label = escapeHtml(link.label);
+        return `<a href="${url}" target="_blank" rel="noopener">${label}</a>`;
+      }).join(' | ');
+    }
+    
+    // Handle single string URL
     const url = escapeHtml(linkUrl);
     // Extract filename from path and remove extension
     const filename = linkUrl.split('/').pop();
