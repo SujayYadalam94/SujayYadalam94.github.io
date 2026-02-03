@@ -122,8 +122,8 @@
               <th style="width: 200px;">Topic</th>
               <th style="width: 80px;">Date</th>
               <th>Paper</th>
-              <th style="width: 150px;">Slides</th>
-              <th style="width: 100px;">Notes</th>
+              <th style="width: 120px;">Slides</th>
+              <th style="width: 150px;">Notes</th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
@@ -156,12 +156,12 @@
     { date: "Feb 19", topic: "", paper: { title: "From WiscKey to Bourbon: A Learned Index for Log-Structured Merge Trees", url: "https://www.usenix.org/system/files/osdi20-dai_0.pdf" }, slides: null, notes: null },
 
     { date: "Feb 24", topic: "Datacenters", paper: { title: "Learning scheduling algorithms for data processing clusters", url: "https://dl.acm.org/doi/pdf/10.1145/3341302.3342080" }, slides: null, notes: null },
-    { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" }, slides: null, notes: null },
+    { date: "Feb 26", topic: "", paper: { title: "TUNA: Tuning Unstable and Noisy Cloud Applications", url: "https://dl.acm.org/doi/pdf/10.1145/3689031.3717480" }, slides: null, notes: "Project ideas release" },
     { date: "Mar 3", topic: "", paper: { title: "OPPerTune: Post-Deployment Configuration Tuning of Services Made Easy", url: "https://www.usenix.org/system/files/nsdi24-somashekar.pdf" }, slides: null, notes: null },
 
     { date: "Mar 5", topic: "Resource management 2", paper: { title: "Darwin: Flexible Learning-based CDN Caching", url: "https://dl.acm.org/doi/pdf/10.1145/3603269.3604863" }, slides: null, notes: null },
     { date: "Mar 10", topic: "", paper: { title: "Learning Memory Access Patterns", url: "https://proceedings.mlr.press/v80/hashemi18a/hashemi18a.pdf" }, slides: null, notes: null },
-    { date: "Mar 12", topic: "", paper: { title: "Classic Meets Modern: a Pragmatic Learning-Based Congestion Control for the Internet", url: "https://dl.acm.org/doi/pdf/10.1145/3387514.3405892" }, slides: null, notes: null },
+    { date: "Mar 12", topic: "", paper: { title: "Classic Meets Modern: a Pragmatic Learning-Based Congestion Control for the Internet", url: "https://dl.acm.org/doi/pdf/10.1145/3387514.3405892" }, slides: null, notes: "Project proposals due" },
 
     { date: "Mar 17", topic: "Spring Break", paper: null, slides: null, notes: null },
     { date: "Mar 19", topic: "", paper: null, slides: null, notes: null },
@@ -180,6 +180,7 @@
 
     { date: "Apr 21", topic: "Project presentations", paper: null, slides: null, notes: null },
     { date: "Apr 23", topic: "", paper: null, slides: null, notes: null },
+    { data: "Apr 27", topic: "", paper: null, slides: null, notes: "Final report due" },
   ];
   // ===========================
 
@@ -322,7 +323,7 @@
       
       const paperTd = `<td data-label="Paper">${renderPaper(lec.paper)}</td>`;
       const slidesTd = `<td data-label="Slides">${renderLink(lec.slides)}</td>`;
-      const notesTd = `<td data-label="Notes">${renderLink(lec.notes)}</td>`;
+      const notesTd = `<td data-label="Notes">${lec.notes ? escapeHtml(lec.notes) : "<span class='muted'>—</span>"}</td>`;
 
       // If this row starts a topic group, render a Topic cell with rowspan.
       const group = groupByStartIndex.get(i);
